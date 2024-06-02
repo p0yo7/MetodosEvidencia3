@@ -4,9 +4,17 @@
 (defn foo []
   (println  "Hello, World!"))
 
-(defn leerArchivo [ruta]
+(defn leerCrucero [ruta]
 	(with-open [rdr (io/reader ruta)]
 		(let [contenido(slurp rdr)]
 			(read-string contenido))))
-(def inventario (leerArchivo "src/evidencia3/crucero.txt"))
-(println inventario)
+(def crucero (leerCrucero "src/evidencia3/crucero.txt"))
+(println crucero)
+
+
+(defn leerVehiculos [ruta]
+	(with-open [rdr (io/reader ruta)]
+		(let [contenido(slurp rdr)]
+			(read-string contenido))))
+(def vehiculos (leerVehiculos "src/evidencia3/vehiculos.txt"))
+(println vehiculos)
