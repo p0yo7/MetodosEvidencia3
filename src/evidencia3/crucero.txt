@@ -1,0 +1,1 @@
+((lápiz 5 345) (pluma 18 1398) (borrador 7.5 543) (cartulina 20 115))
