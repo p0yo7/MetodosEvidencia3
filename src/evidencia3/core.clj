@@ -1,7 +1,6 @@
 (ns evidencia3.core
   (:require [clojure.java.io :as io]))
 
-(defn foo [] (println "Hola Mundo"))
 (defn leerCrucero [ruta]
   (with-open [rdr (io/reader ruta)]
     (let [contenido (slurp rdr)]
@@ -51,31 +50,31 @@
                                      :tiempo-blanco (nth % 3)) cruceros)
         resultados (->> (pmap #(procesar-segundo % crucero-info autos) (range tiempo-total))
                         (reduce (partial merge-with (partial merge-with +))))]
-    
-    (println "Cantidad de autos por semáforo:")
-    (doseq [[semaforo cantidad] (:total-autos resultados)]
-      (println semaforo ":" cantidad))
-
-    (let [total-autos-val (apply + (vals (:total-autos resultados)))
-          total-tiempo-cruce (apply + (vals (:tiempo-cruce-por-semaforo resultados)))
-          tiempo-promedio-cruce (if (> total-autos-val 0)
-                                  (/ total-tiempo-cruce total-autos-val)
-                                  0)]
-      (println "Total de autos en" tiempo-total "segundos:" total-autos-val)
-      (println "Semáforos en verde sin flujo de autos:")
-      (doseq [[semaforo sin-flujo] (:semaforos-verde-sin-flujo resultados)]
-        (println semaforo ":" sin-flujo))
-
-      (println "Tiempo promedio de cruce por semáforo:")
-      (doseq [[semaforo tiempo-total] (:tiempo-cruce-por-semaforo resultados)]
-        (let [cantidad ((:total-autos resultados) semaforo)
-              tiempo-promedio (if (> cantidad 0)
-                                (/ tiempo-total cantidad)
-                                0)]
-          (println semaforo ":" tiempo-promedio "segundos")))
-
-      (println "Tiempo promedio de cruce total:" tiempo-promedio-cruce "segundos")
-      total-autos-val)))
+    (spit "resultados.txt"
+          (str "Cantidad de autos por semáforo:\n"
+               (->> (:total-autos resultados)
+                    (map #(str (first %) ": " (second %) "\n"))
+                    (apply str))
+               "Total de autos en " tiempo-total " segundos: " (apply + (vals (:total-autos resultados))) "\n"
+               "Semáforos en verde sin flujo de autos:\n"
+               (->> (:semaforos-verde-sin-flujo resultados)
+                    (map #(str (first %) ": " (second %) "\n"))
+                    (apply str))
+               "Tiempo promedio de cruce por semáforo:\n"
+               (->> (:tiempo-cruce-por-semaforo resultados)
+                    (map (fn [[semaforo tiempo-total]]
+                           (let [cantidad ((:total-autos resultados) semaforo)
+                                 tiempo-promedio (if (> cantidad 0)
+                                                   (/ tiempo-total cantidad)
+                                                   0)]
+                             (str semaforo ": " tiempo-promedio " segundos\n"))))
+                    (apply str))
+               "Tiempo promedio de cruce total: " (if (> (apply + (vals (:total-autos resultados))) 0)
+                                                     (/ (apply + (vals (:tiempo-cruce-por-semaforo resultados)))
+                                                        (apply + (vals (:total-autos resultados))))
+                                                     0) " segundos\n")))
+    (println "Resultados guardados en resultados.txt"))
 
 (def tiempo-total 300)
 (println (time (calcular-autos crucero vehiculos tiempo-total)))
+(defn foo [] (println "Hola Mundo"))
