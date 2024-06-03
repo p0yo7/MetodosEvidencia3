@@ -20,14 +20,27 @@
 (def vehiculos (leerVehiculos "src/evidencia3/vehiculos.txt"))
 (println vehiculos)
 
-(defn calcular-autos [cruceros autos]
-  (let [total-autos (atom (zipmap (map first cruceros) (repeat 0)))] ; Envuelve el PersistentArrayMap en un átomo
-    (doseq [auto autos]
-      (let [[origen tiempo] (take 2 auto)]
-        (swap! total-autos update origen + tiempo))) ; Usa swap! en el átomo
+(defn calcular-autos [cruceros autos tiempo-total]
+  (let [total-autos (atom (zipmap (map first cruceros) (repeat 0))) ; Envuelve el PersistentArrayMap en un átomo
+        crucero-info (map #(hash-map :direccion (nth % 0) 
+                                     :tiempo-verde (nth % 1)
+                                     :tiempo-rojo (nth % 2)
+                                     :tiempo-blanco (nth % 3)) cruceros)]
+    (doseq [t (range tiempo-total)]
+      (doseq [auto autos]
+        (let [[origen tiempo-cruce tiempo-llegada] (take 3 auto)
+              crucero (first (filter #(= (:direccion %) origen) crucero-info))]
+          (when (and crucero 
+                     (<= (+ tiempo-llegada (* t (reduce + (map :tiempo-verde crucero-info))))
+                         tiempo-total)
+                     (<= tiempo-cruce (:tiempo-verde crucero)))
+            (swap! total-autos update origen inc))))) ; Incrementa el conteo de autos que cruzan por cada semáforo
     (println "Cantidad de autos por semáforo:")
     (doseq [[semaforo cantidad] @total-autos] ; Accede al valor del átomo con @total-autos
       (println semaforo ":" cantidad))
-    (println "Total de autos:" (apply + (vals @total-autos))))) ; Accede al valor del átomo con @total-autos
+    (let [total-autos (apply + (vals @total-autos))]
+      (println "Total de autos en" tiempo-total "segundos:" total-autos)
+      total-autos)))
 
-(println (calcular-autos crucero vehiculos))
+(def tiempo-total 300) ; Tiempo total de análisis en segundos
+(println (calcular-autos crucero vehiculos tiempo-total))
