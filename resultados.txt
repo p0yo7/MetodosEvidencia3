@@ -10,8 +10,8 @@ EO: 0
 NS: 0
 SN: 0
 Tiempo promedio de cruce por semáforo:
-OE: 12 segundos
-EO: 12 segundos
-NS: 34/3 segundos
-SN: 34/3 segundos
-Tiempo promedio de cruce total: 106/9 segundos
+OE: 12.0 segundos
+EO: 12.0 segundos
+NS: 11.333333 segundos
+SN: 11.333333 segundos
+Tiempo promedio de cruce total: 11.777778 segundos

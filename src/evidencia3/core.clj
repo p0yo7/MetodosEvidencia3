@@ -68,13 +68,13 @@
                     (map (fn [[semaforo tiempo-total]]
                            (let [cantidad ((:total-autos resultados) semaforo)
                                  tiempo-promedio (if (> cantidad 0)
-                                                   (/ tiempo-total cantidad)
+                                                   (float (/ tiempo-total cantidad))
                                                    0)]
                              (str semaforo ": " tiempo-promedio " segundos\n"))))
                     (apply str))
                "Tiempo promedio de cruce total: " (if (> (apply + (vals (:total-autos resultados))) 0)
-                                                     (/ (apply + (vals (:tiempo-cruce-por-semaforo resultados)))
-                                                        (apply + (vals (:total-autos resultados))))
+                                                     (float (/ (apply + (vals (:tiempo-cruce-por-semaforo resultados)))
+                                                               (apply + (vals (:total-autos resultados)))))
                                                      0) " segundos\n")))
     (println "Resultados guardados en resultados.txt"))
 
