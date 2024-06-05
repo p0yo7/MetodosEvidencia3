@@ -14,7 +14,7 @@
     (let [contenido (slurp rdr)]
       (read-string contenido))))
 
-(def vehiculos (leerVehiculos "src/evidencia3/vehiculos2.txt"))
+(def vehiculos (leerVehiculos "src/evidencia3/vehiculos.txt"))
 (println vehiculos)
 
 (defn procesar-segundo [t crucero-info autos]
@@ -31,8 +31,9 @@
                                          autos)
                   autos-pendientes (filter #(and (= (first %) direccion)
                                                  (< (nth % 2) t))
-                                           autos)]
-              (if (and inicio-verde? (empty? autos-en-verde))
+                                           autos)
+                  flujo-carros? (not (empty? autos-pendientes))]
+              (if (and inicio-verde? (empty? autos-en-verde) (or (not= direccion :OE) (not= direccion :EO)) (not flujo-carros?))
                 (update-in acumulador [:semaforos-verde-sin-flujo direccion] inc)
                 (reduce (fn [acum auto]
                           (let [[_ tiempo-cruce _] auto]
