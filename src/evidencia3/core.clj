@@ -14,7 +14,7 @@
     (let [contenido (slurp rdr)]
       (read-string contenido))))
 
-(def vehiculos (leerVehiculos "src/evidencia3/vehiculos.txt"))
+(def vehiculos (leerVehiculos "src/evidencia3/vehiculos2.txt"))
 (println vehiculos)
 
 (defn procesar-segundo [t crucero-info autos]
@@ -23,14 +23,16 @@
                   tiempo-verde (:tiempo-verde crucero)
                   ciclo-tiempo (+ (:tiempo-verde crucero) (:tiempo-rojo crucero) (:tiempo-blanco crucero))
                   tiempo-en-ciclo (mod t ciclo-tiempo)
+                  inicio-verde? (= tiempo-en-ciclo 0)
+                  en-verde? (< tiempo-en-ciclo tiempo-verde)
                   autos-en-verde (filter #(and (= (first %) direccion)
-                                               (= (nth % 2) t))
+                                               (<= (mod (nth % 2) ciclo-tiempo) tiempo-verde)
+                                               (> (nth % 2) t))
                                          autos)
-                  semaforo-verde? (pos? tiempo-en-ciclo) ; ¿El semáforo está en verde?
                   autos-pendientes (filter #(and (= (first %) direccion)
                                                  (< (nth % 2) t))
                                            autos)]
-              (if (and semaforo-verde? (empty? autos-pendientes))
+              (if (and inicio-verde? (empty? autos-en-verde))
                 (update-in acumulador [:semaforos-verde-sin-flujo direccion] inc)
                 (reduce (fn [acum auto]
                           (let [[_ tiempo-cruce _] auto]
@@ -77,4 +79,5 @@
 
 (def tiempo-total 300)
 (println (time (calcular-autos crucero vehiculos tiempo-total)))
+
 (defn foo [] (println "Hola Mundo"))

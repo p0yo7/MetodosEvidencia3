@@ -1,17 +1,17 @@
 Cantidad de autos por semáforo:
-OE: 8
-EO: 8
-NS: 6
-SN: 6
-Total de autos en 300 segundos: 28
-Semáforos en verde sin flujo de autos:
-OE: 0
-EO: 0
+OE: 24
+EO: 24
 NS: 0
 SN: 0
+Total de autos en 300 segundos: 48
+Semáforos en verde sin flujo de autos:
+OE: 5
+EO: 5
+NS: 6
+SN: 6
 Tiempo promedio de cruce por semáforo:
-OE: 93/8 segundos
-EO: 93/8 segundos
-NS: 11 segundos
-SN: 11 segundos
-Tiempo promedio de cruce total: 159/14 segundos
+OE: 12 segundos
+EO: 12 segundos
+NS: 0 segundos
+SN: 0 segundos
+Tiempo promedio de cruce total: 12 segundos
