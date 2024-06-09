@@ -84,6 +84,14 @@
            "El semáforo no tiene datos.\n")
          detalle-semaforo)))
 
+(defn calcular-10-mejor-peor [tiempos-promedio]
+  (let [sorted-tiempos (sort-by second tiempos-promedio)
+        total-cruceros (count sorted-tiempos)
+        diez-porciento (max 1 (int (Math/ceil (* 0.1 total-cruceros))))
+        mejores-cruceros (take diez-porciento sorted-tiempos)
+        peores-cruceros (take-last diez-porciento sorted-tiempos)]
+    {:mejores mejores-cruceros :peores peores-cruceros}))
+
 (defn iniciar-analisis []
   "Inicia el análisis de cruceros y vehículos."
   (println "Ingrese el semáforo del cual desea ver detalles:")
@@ -97,11 +105,24 @@
             cantidad-vehiculos (calcular-cantidad-vehiculos datos-vehiculos)
             tiempo-promedio (calcular-tiempo-promedio datos-vehiculos)
             semaforos-verdes-sin-vehiculos (calcular-semaforos-verdes-sin-vehiculos datos-vehiculos)
+            tiempos-promedio-cruceros (map (fn [crucero]
+                                             [crucero (let [valores (vals (get tiempo-promedio crucero))]
+                                                        (if (seq valores)
+                                                          (float (/ (reduce + valores) (count valores)))
+                                                          0))])
+                                           (keys tiempo-promedio))
+            top-cruceros (calcular-10-mejor-peor tiempos-promedio-cruceros)
             resultados (str/join "\n"
                                  (for [crucero (keys cantidad-vehiculos)]
-                                   (formatear-salida crucero (get cantidad-vehiculos crucero) (get tiempo-promedio crucero) (get semaforos-verdes-sin-vehiculos crucero) semaforo)))]
+                                   (formatear-salida crucero (get cantidad-vehiculos crucero) (get tiempo-promedio crucero) (get semaforos-verdes-sin-vehiculos crucero) semaforo)))
+            top-mejores (str "10% de cruceros con menor tiempo de espera:\n"
+                             (str/join "\n" (map #(str (first %) ": " (second %) " segundos") (:mejores top-cruceros))))
+            top-peores (str "10% de cruceros con mayor tiempo de espera:\n"
+                            (str/join "\n" (map #(str (first %) ": " (second %) " segundos") (:peores top-cruceros))))]
         (println resultados)
-        (spit "resultados.txt" resultados))
+        (println top-mejores)
+        (println top-peores)
+        (spit "resultados.txt" (str resultados "\n" top-mejores "\n" top-peores)))
       (catch Exception e
         (println "Error durante el análisis:" (.getMessage e))))))
 
