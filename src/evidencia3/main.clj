@@ -2,110 +2,86 @@
   (:require [clojure.java.io :as io]
             [clojure.string :as str]))
 
-(defn leerCrucero [ruta]
+(defn leer-archivo [ruta]
+  "Lee el contenido de un archivo y lo convierte en una estructura de datos Clojure."
   (with-open [rdr (io/reader ruta)]
     (let [contenido (slurp rdr)]
       (read-string contenido))))
 
-(defn leerVehiculos [ruta]
-  (with-open [rdr (io/reader ruta)]
-    (let [contenido (slurp rdr)]
-      (read-string contenido))))
-
-(defn procesar-segundo [t crucero-info autos]
-  (reduce (fn [acumulador crucero]
-            (let [direccion (:direccion crucero)
-                  tiempo-verde (:tiempo-verde crucero)
-                  ciclo-tiempo (+ (:tiempo-verde crucero) (:tiempo-rojo crucero) (:tiempo-blanco crucero))
-                  tiempo-en-ciclo (mod t ciclo-tiempo)
-                  inicio-verde? (= tiempo-en-ciclo 0)
-                  en-verde? (< tiempo-en-ciclo tiempo-verde)
-                  autos-en-verde (filter #(and (= (first %) direccion)
-                                               (<= (mod (nth % 2) ciclo-tiempo) tiempo-verde)
-                                               (> (nth % 2) t))
-                                         autos)
-                  autos-pendientes (filter #(and (= (first %) direccion)
-                                                 (< (nth % 2) t))
-                                           autos)
-                  flujo-carros? (not (empty? autos-pendientes))]
-              (if (and inicio-verde? (empty? autos-en-verde) (or (not= direccion "OE") (not= direccion "EO")) (not flujo-carros?))
-                (update-in acumulador [:semaforos-verde-sin-flujo direccion] inc)
-                (reduce (fn [acum auto]
-                          (let [[_ tiempo-cruce _] auto]
-                            (-> acum
-                                (update-in [:total-autos direccion] inc)
-                                (update-in [:tiempo-cruce-por-semaforo direccion] #(+ % tiempo-cruce)))))
-                        acumulador autos-en-verde))))
-          {:total-autos (zipmap (map :direccion crucero-info) (repeat 0))
-           :tiempo-cruce-por-semaforo (zipmap (map :direccion crucero-info) (repeat 0))
-           :semaforos-verde-sin-flujo (zipmap (map :direccion crucero-info) (repeat 0))}
-          crucero-info))
-
-(defn calcular-autos [crucero autos tiempo-total]
-  (let [crucero-info (map #(hash-map :direccion (nth % 0) 
-                                     :tiempo-verde (nth % 1)
-                                     :tiempo-rojo (nth % 2)
-                                     :tiempo-blanco (nth % 3)) crucero)
-        resultados (->> (pmap #(procesar-segundo % crucero-info autos) (range tiempo-total))
-                        (reduce (partial merge-with (partial merge-with +))))]
-    (spit "resultados.txt"
-          (str "Cantidad de autos por semáforo:\n"
-               (->> (:total-autos resultados)
-                    (map #(str (first %) ": " (second %) "\n"))
-                    (apply str))
-               "Total de autos en " tiempo-total " segundos: " (apply + (vals (:total-autos resultados))) "\n"
-               "Semáforos en verde sin flujo de autos:\n"
-               (->> (:semaforos-verde-sin-flujo resultados)
-                    (map #(str (first %) ": " (second %) "\n"))
-                    (apply str))
-               "Tiempo promedio de cruce por semáforo:\n"
-               (->> (:tiempo-cruce-por-semaforo resultados)
-                    (map (fn [[semaforo tiempo-total]]
-                           (let [cantidad ((:total-autos resultados) semaforo)
-                                 tiempo-promedio (if (> cantidad 0)
-                                                   (float (/ tiempo-total cantidad))
-                                                   0)]
-                             (str semaforo ": " tiempo-promedio " segundos\n"))))
-                    (apply str))
-               "Tiempo promedio de cruce total: " (if (> (apply + (vals (:total-autos resultados))) 0)
-                                                     (float (/ (apply + (vals (:tiempo-cruce-por-semaforo resultados)))
-                                                               (apply + (vals (:total-autos resultados)))))
-                                                     0) " segundos\n")))
-    (println "Resultados guardados en resultados.txt"))
-
-(defn leer-todos-vehiculos [directorio]
-  (mapcat (fn [archivo]
-            (leerVehiculos (.getAbsolutePath archivo)))
-          (filter #(re-matches #"vehiculo\d+\.txt" (.getName %)) (file-seq (io/file directorio)))))
+(defn leer-archivos-en-directorio [directorio regex]
+  "Lee todos los archivos en el directorio que coinciden con el regex y retorna una lista de sus contenidos."
+  (let [archivos (filter #(re-matches regex (.getName %)) (file-seq (io/file directorio)))]
+    (map leer-archivo (map #(.getAbsolutePath %) archivos))))
 
 (defn leer-todos-cruceros [directorio]
-  (map (fn [archivo]
-         (leerCrucero (.getAbsolutePath archivo)))
-       (filter #(re-matches #"crucero\d+\.txt" (.getName %)) (file-seq (io/file directorio)))))
+  "Lee todos los archivos de cruceros en el directorio y retorna una lista de sus contenidos."
+  (leer-archivos-en-directorio directorio #"crucero\d+\.txt"))
 
-(defn imprimir-lista [lista-titulo lista]
-  (println lista-titulo)
-  (doseq [elemento lista]
-    (println elemento))
-  (println))
+(defn leer-todos-vehiculos [directorio]
+  "Lee todos los archivos de vehículos en el directorio y retorna una lista de sus contenidos."
+  (leer-archivos-en-directorio directorio #"vehiculo\d+\.txt"))
 
-(defn analizar-cruceros []
-  (let [crucero-dir "Documents/Metodos/evidencia3/src/evidencia3/cruceros/"
-        vehiculo-dir "Documents/Metodos/evidencia3/src/evidencia3/vehiculos/"
-        tiempo-total 300]
+(defn procesar-vehiculos [vehiculos]
+  (reduce
+    (fn [acc [crucero semaforo tiempo]]
+      (if (seq? tiempo) ; Verificamos si tiempo es una secuencia
+        (update-in acc [crucero semaforo] #(conj % tiempo)) ; Si es una secuencia, la agregamos al mapa
+        acc)) ; Si no es una secuencia, simplemente retornamos el acumulador sin modificar
+    {}
+    vehiculos))
+
+(defn calcular-cantidad-vehiculos [datos]
+  (reduce
+    (fn [acc [crucero vehiculos]]
+      (let [total-autos (apply + (map (comp (partial apply +) val) vehiculos))]
+        (assoc acc crucero
+               (merge (into {} (for [[semaforo tiempos] vehiculos]
+                                 [semaforo (count tiempos)]))
+                      :total total-autos))))
+    {}
+    datos))
+
+(defn calcular-tiempo-promedio [datos]
+  (let [promedios (reduce
+                    (fn [acc [crucero vehiculos]]
+                      (assoc acc crucero
+                             (into {} (for [[semaforo tiempos] vehiculos]
+                                       [semaforo (/ (apply + tiempos) (count tiempos))]))))
+                    {}
+                    datos)]
+    promedios))
+
+(defn calcular-semáforos-verdes-sin-vehículos [datos]
+  (reduce
+    (fn [acc [crucero vehiculos]]
+      (let [sin-flujo (count
+                        (filter
+                          (fn [[semaforo tiempos]]
+                            (and (zero? (count tiempos)) (not= 0 (count (keys tiempos)))))
+                          vehiculos))]
+        (println "Crucero:" crucero "Sin flujo:" sin-flujo) ; Agregamos esta línea para rastrear
+        (assoc acc crucero sin-flujo)))
+    {}
+    datos))
+
+(defn iniciar-analisis []
+  "Inicia el análisis de cruceros y vehículos."
+  (let [crucero-dir "src/evidencia3/cruceros/"
+        vehiculo-dir "src/evidencia3/vehiculos/"]
     (try
       (let [cruceros (leer-todos-cruceros crucero-dir)
-            vehiculos (leer-todos-vehiculos vehiculo-dir)]
-        (imprimir-lista "Lista de cruceros:" cruceros)
-        (imprimir-lista "Lista de vehículos:" vehiculos)
-        (doseq [crucero cruceros]
-          (println "Datos del crucero:" crucero)
-          (println "Datos de los vehículos:" vehiculos)
-          (calcular-autos [crucero] vehiculos tiempo-total)))
+            vehiculos (leer-todos-vehiculos vehiculo-dir)
+            datos-vehiculos (procesar-vehiculos vehiculos)
+            cantidad-vehiculos (calcular-cantidad-vehiculos datos-vehiculos)
+            tiempo-promedio (calcular-tiempo-promedio datos-vehiculos)
+            semaforos-verdes-sin-vehiculos (calcular-semáforos-verdes-sin-vehículos datos-vehiculos)]
+        (println "Cantidad de vehículos que pasaron por cada crucero y semáforo:" cantidad-vehiculos)
+        (println "Tiempo promedio de cruce por cada crucero y semáforo:" tiempo-promedio)
+        (println "Cantidad de veces que el semáforo estuvo en verde pero no pasaron vehículos:" semaforos-verdes-sin-vehiculos))
       (catch Exception e
-        (println "Error leyendo archivos:" (.getMessage e))))))
+        (println "Error durante el análisis:" (.getMessage e))))))
 
-;; Ejecutar la función para iniciar la interacción
-(analizar-cruceros)
+;; Ejecutar la función para iniciar el análisis
+(iniciar-analisis)
+
 (defn foo [] (println "Completado!"))
-
