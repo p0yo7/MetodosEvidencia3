@@ -45,7 +45,7 @@
       (assoc acc crucero
              (into {} (for [[semaforo tiempos] vehiculos]
                         [semaforo (if (seq tiempos)
-                                    (/ (apply + (map #(max 6 (min 13 (- (:tiempo-llegada %) (:tiempo-cruce %)))) tiempos)) (count tiempos))
+                                    (float (/ (apply + (map #(max 6 (min 13 (- (:tiempo-llegada %) (:tiempo-cruce %)))) tiempos)) (count tiempos)))
                                     0)]))))
     {}
     datos))
@@ -62,6 +62,20 @@
     {}
     datos))
 
+(defn formatear-salida [crucero cantidad-vehiculos tiempo-promedio semaforos-verdes]
+  (let [total-autos (:total cantidad-vehiculos)
+        total-semaforos (count (keys (dissoc cantidad-vehiculos :total)))
+        promedio-total (float (/ (reduce + (vals tiempo-promedio)) (if (pos? total-semaforos) total-semaforos 1)))]
+    (str "Crucero: " crucero "\n"
+         "Cantidad de autos por semáforo:\n"
+         (str/join "\n" (map #(str (key %) ": " (val %)) (dissoc cantidad-vehiculos :total))) "\n"
+         "Total de autos en 300 segundos: " total-autos "\n"
+         "Semáforos en verde sin flujo de autos:\n"
+         (str/join "\n" (map #(str (key %) ": " (get semaforos-verdes (key %))) (dissoc cantidad-vehiculos :total))) "\n"
+         "Tiempo promedio de cruce por semáforo:\n"
+         (str/join "\n" (map #(str (key %) ": " (format "%.6f" (float (val %))) " segundos") tiempo-promedio)) "\n"
+         "Tiempo promedio de cruce total: " (format "%.6f" promedio-total) " segundos\n")))
+
 (defn iniciar-analisis []
   "Inicia el análisis de cruceros y vehículos."
   (let [crucero-dir "src/evidencia3/cruceros/"
@@ -75,9 +89,8 @@
             semaforos-verdes-sin-vehiculos (calcular-semaforos-verdes-sin-vehiculos datos-vehiculos)]
         (println "Lista de cruceros:" cruceros)
         (println "Lista de vehículos:" vehiculos)
-        (println "Cantidad de vehículos que pasaron por cada crucero y semáforo:" cantidad-vehiculos)
-        (println "Tiempo promedio de cruce por cada crucero y semáforo:" tiempo-promedio)
-        (println "Cantidad de veces que el semáforo estuvo en verde pero no pasaron vehículos:" semaforos-verdes-sin-vehiculos))
+        (doseq [crucero (keys cantidad-vehiculos)]
+          (println (formatear-salida crucero (get cantidad-vehiculos crucero) (get tiempo-promedio crucero) (get semaforos-verdes-sin-vehiculos crucero)))))
       (catch Exception e
         (println "Error durante el análisis:" (.getMessage e))))))
 
