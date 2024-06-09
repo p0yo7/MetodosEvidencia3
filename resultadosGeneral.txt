@@ -1,0 +1,3 @@
+Cantidad de vehículos que pasaron por cada crucero y semáforo: {Crucero02 {SENO 4, NOSE 4, OE 4, NS 4, SN 3, EO 4}, Crucero03 {NS 9, SN 5, EO 6, OE 4}, Crucero04 {OE 6, EO 9, SN 9, NS 7}, Crucero01 {SN 2, NS 2, OE 7, EO 4, NESO 4, SONE 3}}
+Tiempo promedio de cruce por cada crucero y semáforo: {Crucero02 {SENO 129/4, NOSE 55, OE 99/2, NS 105/2, SN 127/3, EO 213/4}, Crucero03 {NS 128/3, SN 219/5, EO 51, OE 121/2}, Crucero04 {OE 55, EO 335/9, SN 472/9, NS 305/7}, Crucero01 {SN 30, NS 59, OE 312/7, EO 44, NESO 309/4, SONE 95}}
+Cantidad de veces que el semáforo estuvo en verde pero no pasaron vehículos: {Crucero02 0, Crucero03 0, Crucero04 0, Crucero01 0}

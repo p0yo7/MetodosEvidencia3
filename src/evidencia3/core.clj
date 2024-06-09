@@ -60,6 +60,13 @@
               vehiculos))])
       datos)))
 
+(defn guardar-en-txt [resultado-crucero resultado-general]
+  (let [n (count resultado-crucero)
+        cruceros (range 1 (inc n))]
+    (doseq [crucero cruceros]
+      (spit (str "resultadoCrucero" crucero ".txt") (get resultado-crucero crucero)))
+    (spit "resultadosGeneral.txt" resultado-general)))
+
 (defn iniciar-analisis []
   "Inicia el análisis de cruceros y vehículos."
   (let [crucero-dir "src/evidencia3/cruceros/"
@@ -73,7 +80,16 @@
             semaforos-verdes-sin-vehiculos (calcular-semáforos-verdes-sin-vehículos datos-vehiculos)]
         (println "Cantidad de vehículos que pasaron por cada crucero y semáforo:" cantidad-vehiculos)
         (println "Tiempo promedio de cruce por cada crucero y semáforo:" tiempo-promedio)
-        (println "Cantidad de veces que el semáforo estuvo en verde pero no pasaron vehículos:" semaforos-verdes-sin-vehiculos))
+        (println "Cantidad de veces que el semáforo estuvo en verde pero no pasaron vehículos:" semaforos-verdes-sin-vehiculos)
+        
+        ;; Solicitar al usuario el crucero que desea visualizar
+        (println "Ingrese el número del crucero que desea visualizar:")
+        (let [crucero (read-line)
+              resultado-crucero (get tiempo-promedio (read-string crucero))
+              resultado-general (str "Cantidad de vehículos que pasaron por cada crucero y semáforo: " cantidad-vehiculos
+                                     "\nTiempo promedio de cruce por cada crucero y semáforo: " tiempo-promedio
+                                     "\nCantidad de veces que el semáforo estuvo en verde pero no pasaron vehículos: " semaforos-verdes-sin-vehiculos)]
+          (guardar-en-txt {crucero resultado-crucero} resultado-general)))
       (catch Exception e
         (println "Error durante el análisis:" (.getMessage e))))))
 
