@@ -1,12 +1,13 @@
 (ns evidencia3.core
   (:require [clojure.java.io :as io]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [clojure.edn :as edn]))
 
 (defn leer-archivo [ruta]
   "Lee el contenido de un archivo y lo convierte en una estructura de datos Clojure."
   (with-open [rdr (io/reader ruta)]
     (let [contenido (slurp rdr)]
-      (read-string contenido))))
+      (edn/read-string contenido))))
 
 (defn leer-archivos-en-directorio [directorio regex]
   "Lee todos los archivos en el directorio que coinciden con el regex y retorna una lista de sus contenidos."
@@ -62,23 +63,32 @@
     {}
     datos))
 
-(defn formatear-salida [crucero cantidad-vehiculos tiempo-promedio semaforos-verdes]
+(defn formatear-salida [crucero cantidad-vehiculos tiempo-promedio semaforos-verdes semaforo]
   (let [total-autos (:total cantidad-vehiculos)
         total-semaforos (count (keys (dissoc cantidad-vehiculos :total)))
-        promedio-total (float (/ (reduce + (vals tiempo-promedio)) (if (pos? total-semaforos) total-semaforos 1)))]
+        promedio-total (float (/ (reduce + (vals tiempo-promedio)) (if (pos? total-semaforos) total-semaforos 1)))
+        detalle-semaforo (str "Cantidad de autos por semáforo:\n"
+                              (str/join "\n" (map #(str (key %) ": " (val %)) (dissoc cantidad-vehiculos :total))) "\n"
+                              "Total de autos en 300 segundos: " total-autos "\n"
+                              "Semáforos en verde sin flujo de autos:\n"
+                              (str/join "\n" (map #(str (key %) ": " (get semaforos-verdes (key %))) (dissoc cantidad-vehiculos :total))) "\n"
+                              "Tiempo promedio de cruce por semáforo:\n"
+                              (str/join "\n" (map #(str (key %) ": " (format "%.6f" (float (val %))) " segundos") tiempo-promedio)) "\n"
+                              "Tiempo promedio de cruce total: " (format "%.6f" promedio-total) " segundos\n")]
     (str "Crucero: " crucero "\n"
-         "Cantidad de autos por semáforo:\n"
-         (str/join "\n" (map #(str (key %) ": " (val %)) (dissoc cantidad-vehiculos :total))) "\n"
-         "Total de autos en 300 segundos: " total-autos "\n"
-         "Semáforos en verde sin flujo de autos:\n"
-         (str/join "\n" (map #(str (key %) ": " (get semaforos-verdes (key %))) (dissoc cantidad-vehiculos :total))) "\n"
-         "Tiempo promedio de cruce por semáforo:\n"
-         (str/join "\n" (map #(str (key %) ": " (format "%.6f" (float (val %))) " segundos") tiempo-promedio)) "\n"
-         "Tiempo promedio de cruce total: " (format "%.6f" promedio-total) " segundos\n")))
+         (if-let [cant (get cantidad-vehiculos semaforo)]
+           (str "Detalles para el semáforo " semaforo ":\n"
+                "Cantidad de autos: " cant "\n"
+                "Tiempo promedio de cruce: " (format "%.6f" (get tiempo-promedio semaforo)) " segundos\n"
+                "Semáforo en verde sin flujo de autos: " (get semaforos-verdes semaforo) "\n")
+           "El semáforo no tiene datos.\n")
+         detalle-semaforo)))
 
 (defn iniciar-analisis []
   "Inicia el análisis de cruceros y vehículos."
-  (let [crucero-dir "src/evidencia3/cruceros/"
+  (println "Ingrese el semáforo del cual desea ver detalles:")
+  (let [semaforo (read-line)
+        crucero-dir "src/evidencia3/cruceros/"
         vehiculo-dir "src/evidencia3/vehiculos/"]
     (try
       (let [cruceros (leer-todos-cruceros crucero-dir)
@@ -86,11 +96,12 @@
             datos-vehiculos (procesar-vehiculos vehiculos)
             cantidad-vehiculos (calcular-cantidad-vehiculos datos-vehiculos)
             tiempo-promedio (calcular-tiempo-promedio datos-vehiculos)
-            semaforos-verdes-sin-vehiculos (calcular-semaforos-verdes-sin-vehiculos datos-vehiculos)]
-        (println "Lista de cruceros:" cruceros)
-        (println "Lista de vehículos:" vehiculos)
-        (doseq [crucero (keys cantidad-vehiculos)]
-          (println (formatear-salida crucero (get cantidad-vehiculos crucero) (get tiempo-promedio crucero) (get semaforos-verdes-sin-vehiculos crucero)))))
+            semaforos-verdes-sin-vehiculos (calcular-semaforos-verdes-sin-vehiculos datos-vehiculos)
+            resultados (str/join "\n"
+                                 (for [crucero (keys cantidad-vehiculos)]
+                                   (formatear-salida crucero (get cantidad-vehiculos crucero) (get tiempo-promedio crucero) (get semaforos-verdes-sin-vehiculos crucero) semaforo)))]
+        (println resultados)
+        (spit "resultados.txt" resultados))
       (catch Exception e
         (println "Error durante el análisis:" (.getMessage e))))))
 

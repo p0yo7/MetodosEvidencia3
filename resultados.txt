@@ -1,17 +1,91 @@
+Crucero: Crucero02
+El semáforo no tiene datos.
 Cantidad de autos por semáforo:
-OE: 24
-EO: 24
-NS: 12
-SN: 12
-Total de autos en 300 segundos: 72
+SENO: 4
+NOSE: 4
+OE: 4
+NS: 4
+SN: 3
+EO: 4
+Total de autos en 300 segundos: 23
 Semáforos en verde sin flujo de autos:
-OE: 0
-EO: 0
-NS: 0
-SN: 0
+SENO: 
+NOSE: 
+OE: 
+NS: 
+SN: 
+EO: 
 Tiempo promedio de cruce por semáforo:
-OE: 12.0 segundos
-EO: 12.0 segundos
-NS: 11.333333 segundos
-SN: 11.333333 segundos
-Tiempo promedio de cruce total: 11.777778 segundos
+SENO: 13.000000 segundos
+NOSE: 13.000000 segundos
+OE: 11.000000 segundos
+NS: 9.500000 segundos
+SN: 13.000000 segundos
+EO: 10.500000 segundos
+Tiempo promedio de cruce total: 11.666667 segundos
+
+Crucero: Crucero03
+El semáforo no tiene datos.
+Cantidad de autos por semáforo:
+NS: 9
+SN: 5
+EO: 6
+OE: 4
+Total de autos en 300 segundos: 24
+Semáforos en verde sin flujo de autos:
+NS: 
+SN: 
+EO: 
+OE: 
+Tiempo promedio de cruce por semáforo:
+NS: 11.444445 segundos
+SN: 8.800000 segundos
+EO: 9.833333 segundos
+OE: 11.250000 segundos
+Tiempo promedio de cruce total: 10.331944 segundos
+
+Crucero: Crucero04
+El semáforo no tiene datos.
+Cantidad de autos por semáforo:
+OE: 6
+EO: 9
+SN: 9
+NS: 7
+Total de autos en 300 segundos: 31
+Semáforos en verde sin flujo de autos:
+OE: 
+EO: 
+SN: 
+NS: 
+Tiempo promedio de cruce por semáforo:
+OE: 8.333333 segundos
+EO: 10.666667 segundos
+SN: 8.555555 segundos
+NS: 9.000000 segundos
+Tiempo promedio de cruce total: 9.138889 segundos
+
+Crucero: Crucero01
+El semáforo no tiene datos.
+Cantidad de autos por semáforo:
+SN: 2
+NS: 2
+OE: 7
+EO: 4
+NESO: 4
+SONE: 3
+Total de autos en 300 segundos: 22
+Semáforos en verde sin flujo de autos:
+SN: 
+NS: 
+OE: 
+EO: 
+NESO: 
+SONE: 
+Tiempo promedio de cruce por semáforo:
+SN: 9.500000 segundos
+NS: 13.000000 segundos
+OE: 10.142858 segundos
+EO: 11.250000 segundos
+NESO: 9.750000 segundos
+SONE: 11.333333 segundos
+Tiempo promedio de cruce total: 10.829365 segundos
