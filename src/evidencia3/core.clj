@@ -138,7 +138,10 @@
                             (str/join "\n" (map #(str (first %) ": " (second %) " segundos") (:peores top-cruceros))))]
 
         ;; Iniciar la simulación para todos los cruceros
-        (go (iniciar-simulacion datos-vehiculos))
+        (iniciar-simulacion datos-vehiculos)
+
+        ;; Esperar un poco para asegurar que la simulación haya impreso todos los eventos
+        (Thread/sleep 1000)
 
         ;; Imprimir la información del crucero solicitado
         (imprimir-crucero-solicitado cantidad-vehiculos tiempo-promedio semaforos-verdes-sin-vehiculos crucero-id)
