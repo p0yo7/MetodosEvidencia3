@@ -1,5 +1,4 @@
 Crucero: Crucero02
-El semáforo no tiene datos.
 Cantidad de autos por semáforo:
 SENO: 4
 NOSE: 4
@@ -7,7 +6,7 @@ OE: 4
 NS: 4
 SN: 3
 EO: 4
-Total de autos en 300 segundos: 23
+Total de autos: 23
 Semáforos en verde sin flujo de autos:
 SENO: 
 NOSE: 
@@ -25,13 +24,12 @@ EO: 10.500000 segundos
 Tiempo promedio de cruce total: 11.666667 segundos
 
 Crucero: Crucero03
-El semáforo no tiene datos.
 Cantidad de autos por semáforo:
 NS: 9
 SN: 5
 EO: 6
 OE: 4
-Total de autos en 300 segundos: 24
+Total de autos: 24
 Semáforos en verde sin flujo de autos:
 NS: 
 SN: 
@@ -45,13 +43,12 @@ OE: 11.250000 segundos
 Tiempo promedio de cruce total: 10.331944 segundos
 
 Crucero: Crucero04
-El semáforo no tiene datos.
 Cantidad de autos por semáforo:
 OE: 6
 EO: 9
 SN: 9
 NS: 7
-Total de autos en 300 segundos: 31
+Total de autos: 31
 Semáforos en verde sin flujo de autos:
 OE: 
 EO: 
@@ -65,7 +62,6 @@ NS: 9.000000 segundos
 Tiempo promedio de cruce total: 9.138889 segundos
 
 Crucero: Crucero01
-El semáforo no tiene datos.
 Cantidad de autos por semáforo:
 SN: 2
 NS: 2
@@ -73,7 +69,7 @@ OE: 7
 EO: 4
 NESO: 4
 SONE: 3
-Total de autos en 300 segundos: 22
+Total de autos: 22
 Semáforos en verde sin flujo de autos:
 SN: 
 NS: 
