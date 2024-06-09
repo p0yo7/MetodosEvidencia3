@@ -1,0 +1,8 @@
+:total-cruces: 0
+:total-vehiculos: 0
+:cruces-por-crucero: clojure.lang.LazySeq@1
+:cruces-verde-sin-flujo: clojure.lang.LazySeq@1
+:tiempos-cruce: clojure.lang.LazySeq@1
+:tiempo-promedio-total: 0
+:tiempos-cruce-mayores: 
+:tiempos-cruce-menores: clojure.lang.LazySeq@1
