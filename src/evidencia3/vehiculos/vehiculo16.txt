@@ -1,1 +1,1 @@
-(Crucero03 NS 16 10 6)
+(Crucero04 SN 16 6 42 2)

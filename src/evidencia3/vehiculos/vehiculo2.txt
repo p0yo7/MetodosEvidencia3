@@ -1,1 +1,1 @@
-(Crucero02 NOSE 2 8 33)
+(Crucero06 SN 2 9 51 1)

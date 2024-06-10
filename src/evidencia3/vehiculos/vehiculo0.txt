@@ -1,1 +1,1 @@
-(Crucero02 SENO 0 13 89)
+(Crucero07 EO 0 10 35 1)

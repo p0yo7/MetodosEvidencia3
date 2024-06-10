@@ -1,1 +1,1 @@
-(Crucero01 SONE 90 8 20)
+(Crucero02 EO 90 6 82 1)

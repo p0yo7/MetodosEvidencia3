@@ -1,1 +1,1 @@
-(Crucero03 NS 47 13 31)
+(Crucero03 EO 47 7 20 1)

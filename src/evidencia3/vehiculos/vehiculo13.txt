@@ -1,1 +1,1 @@
-(Crucero02 SN 13 6 52)
+(Crucero02 SENO 13 13 13 1)

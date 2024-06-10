@@ -1,1 +1,1 @@
-(Crucero01 NS 19 8 64)
+(Crucero04 NS 19 11 6 2)

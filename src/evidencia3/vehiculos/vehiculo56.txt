@@ -1,1 +1,1 @@
-(Crucero01 NESO 56 10 17)
+(Crucero06 SN 56 12 30 1)
