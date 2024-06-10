@@ -163,6 +163,29 @@
       (println "Error en imprimir-crucero-solicitado:" (.getMessage e))
       (throw e))))
 
+(defn calcular-tiempo-muerto [cruce vehiculos]
+  (let [[direccion t-verde t-amarillo t-rojo t-blanco t-inicio] cruce
+        t-fin-verde (+ t-inicio t-verde)
+        vehiculos-en-cruce (filter #(= direccion (second %)) vehiculos)
+        tiempos-cruce (map #(vector (nth % 4) (+ (nth % 4) (nth % 3))) vehiculos-en-cruce)
+        tiempos-validos (filter (fn [[llegada salida]]
+                                  (and (<= t-inicio llegada t-fin-verde)
+                                       (<= t-inicio salida t-fin-verde)))
+                                tiempos-cruce)
+        intervalos-validos (mapcat (fn [[llegada salida]]
+                                     (range llegada (inc salida)))
+                                   tiempos-validos)
+        tiempo-verde (range t-inicio (inc t-fin-verde))
+        tiempos-muertos (filter (fn [t] (not (some #{t} intervalos-validos))) tiempo-verde)]
+    (count tiempos-muertos)))
+
+(defn tiempo-muerto [cruceros vehiculos]
+  (map (fn [crucero]
+         (map (fn [cruce]
+                (calcular-tiempo-muerto cruce vehiculos))
+              crucero))
+       cruceros))
+
 (defn iniciar-analisis []
   "Inicia el análisis de cruceros y vehículos."
   (println "Ingrese el número de crucero del cual desea ver detalles:")
@@ -189,6 +212,7 @@
                                                             0))])
                                              (keys tiempo-promedio))
               top-cruceros (calcular-10-mejor-peor tiempos-promedio-cruceros)
+              tiempos-muertos (tiempo-muerto cruceros vehiculos)
               resultados (str/join "\n"
                                    (for [crucero (keys cantidad-vehiculos)]
                                      (formatear-salida crucero (get cantidad-vehiculos crucero) (get tiempo-promedio crucero) (get semaforos-verdes-sin-vehiculos crucero))))
@@ -209,7 +233,12 @@
           ;; Imprimir y guardar los top 10% de cruceros
           (println top-mejores)
           (println top-peores)
-          (spit "resultados.txt" (str resultados "\n" top-mejores "\n" top-peores) :append true)))
+
+          ;; Guardar todos los resultados en resultados.txt
+          (spit "resultados.txt" (str resultados "\n" top-mejores "\n" top-peores "\nTiempos muertos:\n" 
+                                      (str/join "\n" (map-indexed (fn [idx tm]
+                                                                    (str "Crucero " (inc idx) ": " (str/join ", " tm)))
+                                                                  tiempos-muertos))) :append true)))
       (catch Exception e
         (println "Error en iniciar-analisis:" (.getMessage e))))))
 ;; Ejecutar la función para iniciar el análisis
