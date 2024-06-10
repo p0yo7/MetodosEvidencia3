@@ -132,11 +132,9 @@
     (try
       (let [cruceros (leer-todos-cruceros crucero-dir)
             vehiculos (leer-todos-vehiculos vehiculo-dir)]
-
         ;; Imprimir listas de cruceros y vehículos para depuración
         (println "Cruceros leídos:" cruceros)
         (println "Vehículos leídos:" vehiculos)
-
         (let [datos-vehiculos (procesar-vehiculos vehiculos)
               cantidad-vehiculos (calcular-cantidad-vehiculos datos-vehiculos)
               tiempo-promedio (calcular-tiempo-promedio datos-vehiculos)
@@ -147,31 +145,16 @@
                                                             (float (/ (reduce + valores) (count valores)))
                                                             0))])
                                              (keys tiempo-promedio))
-              top-cruceros (calcular-10-mejor-peor tiempos-promedio-cruceros)
-              resultados (str/join "\n"
-                                   (for [crucero (keys cantidad-vehiculos)]
-                                     (formatear-salida crucero (get cantidad-vehiculos crucero) (get tiempo-promedio crucero) (get semaforos-verdes-sin-vehiculos crucero))))
-              top-mejores (str "10% de cruceros con menor tiempo de espera:\n"
-                               (str/join "\n" (map #(str (first %) ": " (second %) " segundos") (:mejores top-cruceros))))
-              top-peores (str "10% de cruceros con mayor tiempo de espera:\n"
-                              (str/join "\n" (map #(str (first %) ": " (second %) " segundos") (:peores top-cruceros))))]
-
-          ;; Iniciar la simulación para todos los cruceros
-          (iniciar-simulacion datos-vehiculos)
-
-          ;; Esperar un poco para asegurar que la simulación haya impreso todos los eventos
-          (Thread/sleep 1000)
-
-          ;; Imprimir la información del crucero solicitado
+              top-cruceros (calcular-10-mejor-peor tiempos-promedio-cruceros)]
           (imprimir-crucero-solicitado cantidad-vehiculos tiempo-promedio semaforos-verdes-sin-vehiculos crucero-id)
-
-          ;; Imprimir y guardar los top 10% de cruceros
-          (println top-mejores)
-          (println top-peores)
-          (spit "resultados.txt" (str resultados "\n" top-mejores "\n" top-peores) :append true)))
+          (println "Top 10 cruceros con menor tiempo promedio de cruce:")
+          (doseq [[crucero tiempo] (:mejores top-cruceros)]
+            (println (str crucero ": " tiempo)))
+          (println "Top 10 cruceros con mayor tiempo promedio de cruce:")
+          (doseq [[crucero tiempo] (:peores top-cruceros)]
+            (println (str crucero ": " tiempo)))))
       (catch Exception e
         (println "Error durante el análisis:" (.getMessage e))))
     (println "Completado!")))
 
-;; Ejecutar la función para iniciar el análisis
-(iniciar-analisis)
+(defn foo [] (iniciar-analisis))
