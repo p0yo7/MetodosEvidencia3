@@ -25,18 +25,19 @@
 
 (defn procesar-vehiculos [vehiculos]
   (reduce
-    (fn [acc [crucero semaforo id tiempo-cruce tiempo-llegada]]
-      (update-in acc [crucero semaforo] #(conj (or % []) {:tiempo-cruce tiempo-cruce :tiempo-llegada tiempo-llegada})))
+    (fn [acc [crucero semaforo id tiempo-cruce tiempo-llegada carril]]
+      (update-in acc [crucero semaforo carril] #(conj (or % []) {:tiempo-cruce tiempo-cruce :tiempo-llegada tiempo-llegada})))
     {}
     vehiculos))
 
 (defn calcular-cantidad-vehiculos [datos]
   (reduce
     (fn [acc [crucero vehiculos]]
-      (let [total-autos (apply + (map (comp count val) vehiculos))]
+      (let [total-autos (apply + (map (comp count val) (vals vehiculos)))]
         (assoc acc crucero
-               (merge (into {} (for [[semaforo tiempos] vehiculos]
-                                 [semaforo (count tiempos)]))
+               (merge (into {} (for [[semaforo carriles] vehiculos
+                                     [carril tiempos] carriles]
+                                 [[semaforo carril] (count tiempos)]))
                       {:total total-autos}))))
     {}
     datos))
@@ -45,10 +46,11 @@
   (reduce
     (fn [acc [crucero vehiculos]]
       (assoc acc crucero
-             (into {} (for [[semaforo tiempos] vehiculos]
-                        [semaforo (if (seq tiempos)
-                                    (float (/ (apply + (map #(max 6 (min 13 (- (:tiempo-llegada %) (:tiempo-cruce %)))) tiempos)) (count tiempos)))
-                                    0)]))))
+             (into {} (for [[semaforo carriles] vehiculos
+                            [carril tiempos] carriles]
+                        [[semaforo carril] (if (seq tiempos)
+                                             (float (/ (apply + (map #(max 6 (min 13 (- (:tiempo-llegada %) (:tiempo-cruce %)))) tiempos)) (count tiempos)))
+                                             0))))))
     {}
     datos))
 
@@ -57,8 +59,8 @@
     (fn [acc [crucero vehiculos]]
       (let [sin-flujo (count
                         (filter
-                          (fn [[semaforo tiempos]]
-                            (empty? tiempos))
+                          (fn [[semaforo carriles]]
+                            (every? empty? (vals carriles)))
                           vehiculos))]
         (assoc acc crucero sin-flujo)))
     {}
@@ -91,12 +93,13 @@
   "Inicia la simulación mostrando los eventos en el tiempo."
   (let [eventos (chan)]
     (doseq [[crucero semaforos] datos-vehiculos]
-      (doseq [[semaforo tiempos] semaforos]
-        (doseq [evento tiempos]
-          (put! eventos {:crucero crucero :semaforo semaforo :tiempo-llegada (:tiempo-llegada evento)}))))
+      (doseq [[semaforo carriles] semaforos]
+        (doseq [[carril tiempos] carriles]
+          (doseq [evento tiempos]
+            (put! eventos {:crucero crucero :semaforo semaforo :carril carril :tiempo-llegada (:tiempo-llegada evento)})))))
     (go-loop []
       (when-let [evento (<! eventos)]
-        (println (str "Tiempo relativo " (:tiempo-llegada evento) ": Crucero " (:crucero evento) " tiene el semáforo en verde."))
+        (println (str "Tiempo relativo " (:tiempo-llegada evento) ": Crucero " (:crucero evento) " tiene el semáforo " (:semaforo evento) " y carril " (:carril evento) " en verde."))
         (recur)))))
 
 (defn imprimir-crucero-solicitado [cantidad-vehiculos tiempo-promedio semaforos-verdes crucero-id]

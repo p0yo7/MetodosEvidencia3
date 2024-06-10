@@ -13,12 +13,13 @@ def genera(choice, id, crucero, tLlegadaSmall, tLlegadaBig):
     direccion = r.choice(crucero)
     TiempoTarda = r.randint(6, 13)
     TiempoLlegada = r.randint(tLlegadaSmall, tLlegadaBig)
-    texto = f"(Crucero0{choice+1} {direccion} {id} {TiempoTarda} {TiempoLlegada})"
+    carril = r.randint(1, 2)
+    texto = f"(Crucero0{choice+1} {direccion} {id} {TiempoTarda} {TiempoLlegada} {carril})"
     creaArchivo(id, texto)
 
 def generaVehiculos():
-    for i in range(100):
-        crucero = r.randint(0, 3)
+    for i in range(200):
+        crucero = r.randint(0, 6)  # Cambiado a 6 para incluir los casos adicionales
         if crucero == 0:
             genera(crucero, i, crucero6A, 0, 67)
         elif crucero == 1:
@@ -27,6 +28,12 @@ def generaVehiculos():
             genera(crucero, i, crucero4, 0, 71)
         elif crucero == 3:
             genera(crucero, i, crucero4, 0, 44)
+        elif crucero == 4:
+            genera(crucero, i, crucero4, 0, 56)
+        elif crucero == 5:
+            genera(crucero, i, crucero4, 0, 66)
+        elif crucero == 6:
+            genera(crucero, i, crucero4, 0, 46)
     print("Creación de Vehículos completada")
 
 generaVehiculos()

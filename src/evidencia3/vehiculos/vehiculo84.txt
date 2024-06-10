@@ -1,1 +1,1 @@
-(Crucero02 SENO 84 7 42)
+(Crucero07 NS 84 10 8 2)

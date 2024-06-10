@@ -1,1 +1,1 @@
-(Crucero01 EO 49 6 42)
+(Crucero01 NESO 49 7 29 2)

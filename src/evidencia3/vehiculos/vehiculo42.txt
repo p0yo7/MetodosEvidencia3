@@ -1,1 +1,1 @@
-(Crucero02 SENO 42 8 50)
+(Crucero01 SONE 42 13 5 2)

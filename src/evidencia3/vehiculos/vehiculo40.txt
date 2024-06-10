@@ -1,1 +1,1 @@
-(Crucero01 EO 40 6 65)
+(Crucero06 NS 40 10 18 1)
