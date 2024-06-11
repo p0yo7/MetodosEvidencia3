@@ -1,1 +1,1 @@
-(Crucero01 EO 185 11 32 1)
+(Crucero01 SN 185 12 1 2)

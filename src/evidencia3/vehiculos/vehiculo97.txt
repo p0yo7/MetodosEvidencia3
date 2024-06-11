@@ -1,1 +1,1 @@
-(Crucero01 NESO 97 6 17 1)
+(Crucero07 NS 97 13 34 2)

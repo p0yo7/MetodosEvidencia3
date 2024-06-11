@@ -1,1 +1,1 @@
-(Crucero02 SN 69 6 5 1)
+(Crucero06 NS 69 12 64 2)

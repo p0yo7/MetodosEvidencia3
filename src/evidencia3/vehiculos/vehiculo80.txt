@@ -1,1 +1,1 @@
-(Crucero03 NS 80 8 37 1)
+(Crucero01 EO 80 10 6 1)

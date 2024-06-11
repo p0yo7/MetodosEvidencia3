@@ -1,1 +1,1 @@
-(Crucero01 SN 110 6 1 1)
+(Crucero06 NS 110 8 59 1)

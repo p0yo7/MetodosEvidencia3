@@ -1,1 +1,1 @@
-(Crucero05 EO 116 8 14 1)
+(Crucero05 NS 116 12 9 2)

@@ -1,1 +1,1 @@
-(Crucero01 NESO 86 6 51 1)
+(Crucero01 SONE 86 7 8 2)

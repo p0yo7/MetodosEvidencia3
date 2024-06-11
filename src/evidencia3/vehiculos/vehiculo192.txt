@@ -1,1 +1,1 @@
-(Crucero07 OE 192 11 2 2)
+(Crucero05 EO 192 6 6 2)

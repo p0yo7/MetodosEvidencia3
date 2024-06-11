@@ -1,1 +1,1 @@
-(Crucero04 OE 168 10 4 2)
+(Crucero04 NS 168 8 1 1)

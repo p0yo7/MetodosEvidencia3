@@ -1,1 +1,1 @@
-(Crucero06 EO 195 10 1 1)
+(Crucero06 EO 195 8 57 2)

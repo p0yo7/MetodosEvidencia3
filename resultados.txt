@@ -1,46 +1,18 @@
-Crucero: Crucero07
-Cantidad de autos por semáforo:
-EO-1: 5
-EO-2: 2
-SN-2: 4
-SN-1: 2
-NS-1: 4
-OE-1: 6
-OE-2: 2
-Total de autos: 25
-Semáforos en verde sin flujo de autos:
-EO-1: 
-EO-2: 
-SN-2: 
-SN-1: 
-NS-1: 
-OE-1: 
-OE-2: 
-Tiempo promedio de cruce por semáforo:
-EO-1: 11.600000 segundos
-EO-2: 9.500000 segundos
-SN-2: 12.250000 segundos
-SN-1: 9.500000 segundos
-NS-1: 8.750000 segundos
-OE-1: 8.833333 segundos
-OE-2: 9.500000 segundos
-Tiempo promedio de cruce total: 9.990477 segundos
-
 Crucero: Crucero01
 Cantidad de autos por semáforo:
-OE-1: 1
-NESO-2: 2
+OE-1: 5
+NESO-2: 1
 SN-1: 4
-NS-2: 3
-OE-2: 3
+NS-2: 2
+OE-2: 2
 SONE-1: 3
-EO-1: 1
-NS-1: 3
-SN-2: 1
+EO-1: 3
+NS-1: 1
+SN-2: 2
 SONE-2: 4
 EO-2: 2
-NESO-1: 4
-Total de autos: 31
+NESO-1: 3
+Total de autos: 32
 Semáforos en verde sin flujo de autos:
 OE-1: 
 NESO-2: 
@@ -55,135 +27,58 @@ SONE-2:
 EO-2: 
 NESO-1: 
 Tiempo promedio de cruce por semáforo:
-OE-1: 13.000000 segundos
-NESO-2: 9.500000 segundos
+OE-1: 12.400000 segundos
+NESO-2: 13.000000 segundos
 SN-1: 9.500000 segundos
-NS-2: 12.333333 segundos
-OE-2: 8.666667 segundos
+NS-2: 9.500000 segundos
+OE-2: 9.500000 segundos
 SONE-1: 13.000000 segundos
-EO-1: 13.000000 segundos
-NS-1: 10.333333 segundos
-SN-2: 6.000000 segundos
-SONE-2: 9.750000 segundos
+EO-1: 10.666667 segundos
+NS-1: 13.000000 segundos
+SN-2: 9.500000 segundos
+SONE-2: 9.500000 segundos
 EO-2: 13.000000 segundos
-NESO-1: 12.500000 segundos
-Tiempo promedio de cruce total: 10.881945 segundos
+NESO-1: 10.666667 segundos
+Tiempo promedio de cruce total: 11.102777 segundos
 
-Crucero: Crucero03
+Crucero: Crucero07
 Cantidad de autos por semáforo:
-OE-1: 2
-SN-1: 2
-NS-2: 2
-OE-2: 5
-EO-1: 5
+EO-2: 5
+EO-1: 3
+SN-1: 4
+SN-2: 1
+NS-2: 5
 NS-1: 4
-SN-2: 3
-EO-2: 6
-Total de autos: 29
+OE-2: 3
+Total de autos: 25
 Semáforos en verde sin flujo de autos:
-OE-1: 
-SN-1: 
-NS-2: 
-OE-2: 
-EO-1: 
-NS-1: 
-SN-2: 
 EO-2: 
+EO-1: 
+SN-1: 
+SN-2: 
+NS-2: 
+NS-1: 
+OE-2: 
 Tiempo promedio de cruce por semáforo:
-OE-2: 11.600000 segundos
-OE-1: 13.000000 segundos
-NS-1: 11.250000 segundos
-NS-2: 12.000000 segundos
-EO-2: 11.833333 segundos
-EO-1: 12.800000 segundos
+EO-2: 8.800000 segundos
+EO-1: 10.666667 segundos
+SN-1: 9.500000 segundos
 SN-2: 13.000000 segundos
-SN-1: 12.500000 segundos
-Tiempo promedio de cruce total: 12.247917 segundos
+NS-2: 10.200000 segundos
+NS-1: 9.500000 segundos
+OE-2: 13.000000 segundos
+Tiempo promedio de cruce total: 10.666667 segundos
 
 Crucero: Crucero05
 Cantidad de autos por semáforo:
-OE-1: 4
-SN-1: 6
-NS-2: 2
-OE-2: 5
-EO-1: 5
-NS-1: 2
-SN-2: 4
-EO-2: 2
-Total de autos: 30
-Semáforos en verde sin flujo de autos:
-OE-1: 
-SN-1: 
-NS-2: 
-OE-2: 
-EO-1: 
-NS-1: 
-SN-2: 
-EO-2: 
-Tiempo promedio de cruce por semáforo:
-EO-1: 7.400000 segundos
-EO-2: 11.000000 segundos
-SN-1: 11.833333 segundos
-SN-2: 13.000000 segundos
-OE-2: 12.600000 segundos
-OE-1: 13.000000 segundos
-NS-1: 13.000000 segundos
-NS-2: 9.500000 segundos
-Tiempo promedio de cruce total: 11.416667 segundos
-
-Crucero: Crucero02
-Cantidad de autos por semáforo:
-OE-1: 3
-SN-1: 2
-NS-2: 1
-NOSE-2: 1
-OE-2: 2
-EO-1: 2
-NOSE-1: 2
-NS-1: 1
-SENO-1: 7
-SN-2: 2
-SENO-2: 3
-EO-2: 2
-Total de autos: 28
-Semáforos en verde sin flujo de autos:
-OE-1: 
-SN-1: 
-NS-2: 
-NOSE-2: 
-OE-2: 
-EO-1: 
-NOSE-1: 
-NS-1: 
-SENO-1: 
-SN-2: 
-SENO-2: 
-EO-2: 
-Tiempo promedio de cruce por semáforo:
-OE-1: 13.000000 segundos
-SN-1: 9.500000 segundos
-NS-2: 13.000000 segundos
-NOSE-2: 9.000000 segundos
-OE-2: 13.000000 segundos
-EO-1: 13.000000 segundos
-NOSE-1: 13.000000 segundos
-NS-1: 13.000000 segundos
-SENO-1: 12.000000 segundos
-SN-2: 13.000000 segundos
-SENO-2: 13.000000 segundos
-EO-2: 9.500000 segundos
-Tiempo promedio de cruce total: 12.000000 segundos
-
-Crucero: Crucero04
-Cantidad de autos por semáforo:
-OE-1: 5
+OE-1: 2
 SN-1: 1
 NS-2: 4
 OE-2: 3
-EO-1: 4
-NS-1: 2
-SN-2: 5
-EO-2: 5
+EO-1: 7
+NS-1: 4
+SN-2: 4
+EO-2: 4
 Total de autos: 29
 Semáforos en verde sin flujo de autos:
 OE-1: 
@@ -195,25 +90,84 @@ NS-1:
 SN-2: 
 EO-2: 
 Tiempo promedio de cruce por semáforo:
-OE-1: 10.400000 segundos
-OE-2: 10.333333 segundos
-EO-1: 7.750000 segundos
-EO-2: 8.800000 segundos
-SN-2: 9.200000 segundos
-SN-1: 13.000000 segundos
-NS-2: 9.000000 segundos
-NS-1: 7.500000 segundos
-Tiempo promedio de cruce total: 9.497916 segundos
+NS-1: 11.250000 segundos
+NS-2: 7.750000 segundos
+OE-2: 13.000000 segundos
+OE-1: 7.500000 segundos
+SN-2: 11.250000 segundos
+SN-1: 10.000000 segundos
+EO-1: 11.571428 segundos
+EO-2: 9.500000 segundos
+Tiempo promedio de cruce total: 10.227678 segundos
 
 Crucero: Crucero06
 Cantidad de autos por semáforo:
-OE-1: 3
-SN-1: 4
-NS-2: 2
-OE-2: 4
+SN-2: 7
+SN-1: 2
+NS-1: 4
+NS-2: 4
+OE-2: 2
+EO-1: 3
+EO-2: 4
+Total de autos: 26
+Semáforos en verde sin flujo de autos:
+SN-2: 
+SN-1: 
+NS-1: 
+NS-2: 
+OE-2: 
+EO-1: 
+EO-2: 
+Tiempo promedio de cruce por semáforo:
+SN-2: 10.000000 segundos
+SN-1: 10.500000 segundos
+NS-1: 13.000000 segundos
+NS-2: 13.000000 segundos
+OE-2: 13.000000 segundos
+EO-1: 8.333333 segundos
+EO-2: 11.250000 segundos
+Tiempo promedio de cruce total: 11.297619 segundos
+
+Crucero: Crucero03
+Cantidad de autos por semáforo:
+OE-1: 4
+SN-1: 1
+NS-2: 1
+OE-2: 5
 EO-1: 4
 NS-1: 2
-SN-2: 5
+SN-2: 8
+EO-2: 6
+Total de autos: 31
+Semáforos en verde sin flujo de autos:
+OE-1: 
+SN-1: 
+NS-2: 
+OE-2: 
+EO-1: 
+NS-1: 
+SN-2: 
+EO-2: 
+Tiempo promedio de cruce por semáforo:
+SN-2: 11.000000 segundos
+SN-1: 6.000000 segundos
+OE-2: 10.400000 segundos
+OE-1: 10.750000 segundos
+EO-1: 11.250000 segundos
+EO-2: 13.000000 segundos
+NS-1: 13.000000 segundos
+NS-2: 13.000000 segundos
+Tiempo promedio de cruce total: 11.050000 segundos
+
+Crucero: Crucero04
+Cantidad de autos por semáforo:
+OE-1: 4
+SN-1: 4
+NS-2: 1
+OE-2: 3
+EO-1: 6
+NS-1: 2
+SN-2: 4
 EO-2: 4
 Total de autos: 28
 Semáforos en verde sin flujo de autos:
@@ -226,54 +180,92 @@ NS-1:
 SN-2: 
 EO-2: 
 Tiempo promedio de cruce por semáforo:
-EO-2: 9.000000 segundos
-EO-1: 11.250000 segundos
-OE-2: 11.250000 segundos
-OE-1: 10.666667 segundos
-SN-2: 10.200000 segundos
-SN-1: 10.500000 segundos
-NS-2: 6.500000 segundos
-NS-1: 13.000000 segundos
-Tiempo promedio de cruce total: 10.295834 segundos
+SN-1: 6.750000 segundos
+SN-2: 12.750000 segundos
+NS-1: 9.500000 segundos
+NS-2: 13.000000 segundos
+EO-2: 13.000000 segundos
+EO-1: 11.000000 segundos
+OE-1: 7.750000 segundos
+OE-2: 12.000000 segundos
+Tiempo promedio de cruce total: 10.718750 segundos
+
+Crucero: Crucero02
+Cantidad de autos por semáforo:
+OE-1: 3
+SN-1: 5
+NS-2: 1
+NOSE-2: 3
+OE-2: 1
+EO-1: 3
+NOSE-1: 5
+SENO-1: 4
+SN-2: 1
+SENO-2: 1
+EO-2: 2
+Total de autos: 29
+Semáforos en verde sin flujo de autos:
+OE-1: 
+SN-1: 
+NS-2: 
+NOSE-2: 
+OE-2: 
+EO-1: 
+NOSE-1: 
+SENO-1: 
+SN-2: 
+SENO-2: 
+EO-2: 
+Tiempo promedio de cruce por semáforo:
+OE-1: 13.000000 segundos
+SN-1: 13.000000 segundos
+NS-2: 8.000000 segundos
+NOSE-2: 13.000000 segundos
+OE-2: 13.000000 segundos
+EO-1: 10.666667 segundos
+NOSE-1: 13.000000 segundos
+SENO-1: 11.250000 segundos
+SN-2: 6.000000 segundos
+SENO-2: 13.000000 segundos
+EO-2: 13.000000 segundos
+Tiempo promedio de cruce total: 11.537879 segundos
 
 10% de cruceros con menor tiempo de espera:
-Crucero04: 9.497916 segundos
+Crucero05: 10.227678 segundos
 10% de cruceros con mayor tiempo de espera:
-Crucero03: 12.247917 segundos
+Crucero02: 11.537879 segundos
 Tiempos muertos:
-Crucero 1: 11, 11, 2, 7, 4, 5
-Crucero 2: 21, 21, 7, 0, 27, 34
-Crucero 3: 3, 1, 7, 4
-Crucero 4: 3, 4, 0, 2
-Crucero 5: 3, 2, 2, 0
-Crucero 6: 5, 1, 4, 5
-Crucero 7: 3, 4, 3, 0Estadísticas del Crucero Crucero02:
+Crucero 1: 11, 11, 6, 0, 7, 5
+Crucero 2: 21, 21, 2, 1, 41, 30
+Crucero 3: 2, 1, 4, 3
+Crucero 4: 2, 3, 1, 1
+Crucero 5: 1, 0, 0, 1
+Crucero 6: 1, 0, 7, 5
+Crucero 7: 2, 3, 0, 1Estadísticas del Crucero Crucero02:
 Cantidad de vehículos por semáforo y carril:
 OE-1: 3
-SN-1: 2
+SN-1: 5
 NS-2: 1
-NOSE-2: 1
-OE-2: 2
-EO-1: 2
-NOSE-1: 2
-NS-1: 1
-SENO-1: 7
-SN-2: 2
-SENO-2: 3
+NOSE-2: 3
+OE-2: 1
+EO-1: 3
+NOSE-1: 5
+SENO-1: 4
+SN-2: 1
+SENO-2: 1
 EO-2: 2
-Total de vehículos: 28
+Total de vehículos: 29
 Tiempo promedio de cruce por semáforo y carril (en segundos):
 OE-1: 13.0
-SN-1: 9.5
-NS-2: 13.0
-NOSE-2: 9.0
+SN-1: 13.0
+NS-2: 8.0
+NOSE-2: 13.0
 OE-2: 13.0
-EO-1: 13.0
+EO-1: 10.666667
 NOSE-1: 13.0
-NS-1: 13.0
-SENO-1: 12.0
-SN-2: 13.0
+SENO-1: 11.25
+SN-2: 6.0
 SENO-2: 13.0
-EO-2: 9.5
+EO-2: 13.0
 Total de semáforos en verde sin vehículos: 0
-Tiempo muerto (en segundos): clojure.lang.LazySeq@59e71fe1
+Tiempo muerto (en segundos): clojure.lang.LazySeq@59e4df75

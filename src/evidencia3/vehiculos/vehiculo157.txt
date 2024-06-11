@@ -1,1 +1,1 @@
-(Crucero01 NESO 157 7 9 2)
+(Crucero02 NOSE 157 9 113 2)

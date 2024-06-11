@@ -1,1 +1,1 @@
-(Crucero06 OE 120 6 23 2)
+(Crucero01 NESO 120 8 5 1)

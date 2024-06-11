@@ -1,1 +1,1 @@
-(Crucero01 OE 135 10 5 2)
+(Crucero01 NS 135 12 16 2)
