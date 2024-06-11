@@ -60,10 +60,10 @@
     (reduce
       (fn [acc [crucero semaforos]]
         (let [total-autos (apply + (map (fn [[_ carriles]] (apply + (map (fn [[_ tiempos]] (count tiempos)) carriles))) semaforos))]
-          (assoc acc crucero
+          (assoc acc (name crucero)
                  (merge (into {} (for [[semaforo carriles] semaforos
                                        [carril tiempos] carriles]
-                                   [(str semaforo "-" carril) (count tiempos)]))
+                                   [(str (name semaforo) "-" carril) (count tiempos)]))
                         {:total total-autos}))))
       {}
       datos)
@@ -75,10 +75,10 @@
   (try
     (reduce
       (fn [acc [crucero semaforos]]
-        (assoc acc crucero
+        (assoc acc (name crucero)
                (into {} (for [[semaforo carriles] semaforos
                               [carril tiempos] carriles]
-                          [(str semaforo "-" carril) (if (seq tiempos)
+                          [(str (name semaforo) "-" carril) (if (seq tiempos)
                                                         (float (/ (apply + (map #(max 6 (min 13 (- (:tiempo-llegada %) (:tiempo-cruce %)))) tiempos)) (count tiempos)))
                                                         0)]))))
       {}
@@ -96,7 +96,7 @@
                             (fn [[_ carriles]]
                               (every? empty? (vals carriles)))
                             semaforos))]
-          (assoc acc crucero sin-flujo)))
+          (assoc acc (name crucero) sin-flujo)))
       {}
       datos)
     (catch Exception e
@@ -165,7 +165,7 @@
         (doseq [[semaforo carriles] semaforos]
           (doseq [[carril tiempos] carriles]
             (doseq [evento tiempos]
-              (put! eventos {:crucero crucero :semaforo semaforo :carril carril :tiempo-llegada (:tiempo-llegada evento)})))))
+              (put! eventos {:crucero (name crucero) :semaforo (name semaforo) :carril carril :tiempo-llegada (:tiempo-llegada evento)})))))
       (go-loop []
         (when-let [evento (<! eventos)]
           (println (str "Tiempo relativo " (:tiempo-llegada evento) ": Crucero " (:crucero evento) ", Semáforo " (:semaforo evento) ", Carril " (:carril evento) " tiene el semáforo en verde."))
@@ -174,43 +174,35 @@
       (println "Error en iniciar-simulacion:" (.getMessage e))
       (throw e))))
 
-(defn imprimir-informacion-crucero [crucero-id cantidad-vehiculos tiempo-promedio semaforos-verdes tiempos-muertos]
-  (let [crucero-info (get cantidad-vehiculos crucero-id)
-        promedio (get tiempo-promedio crucero-id)
-        semaforos-verde (get semaforos-verdes crucero-id)
-        tiempos-muerto (nth tiempos-muertos (dec (Integer/parseInt (re-find #"\d+" crucero-id))))]
-    (println "Estadísticas del Crucero" crucero-id ":")
-    (println "Cantidad de vehículos por semáforo y carril:")
+(defn imprimir-informacion-crucero [crucero-id cruceros-info]
+  (let [crucero-info (get cruceros-info crucero-id)]
     (if crucero-info
-      (doseq [[k v] (dissoc crucero-info :total)]
-        (println (str k ": " v)))
-      (println "No disponible"))
-    (println "Total de vehículos:" (if crucero-info (:total crucero-info) "No disponible"))
-    (println "Tiempo promedio de cruce por semáforo y carril (en segundos):")
-    (if promedio
-      (doseq [[k v] promedio]
-        (println (str k ": " v)))
-      (println "No disponible"))
-    (println "Total de semáforos en verde sin vehículos:")
-    (println (if semaforos-verde semaforos-verde "No disponible"))
-    (println "Tiempo muerto (en segundos):")
-    (println (if tiempos-muerto tiempos-muerto "No disponible"))
-    (spit "resultados.txt" (str "Estadísticas del Crucero " crucero-id ":\n"
-                                "Cantidad de vehículos por semáforo y carril:\n"
-                                (str/join "\n" (map #(str (key %) ": " (val %)) (dissoc crucero-info :total))) "\n"
-                                "Total de vehículos: " (if crucero-info (:total crucero-info) "No disponible") "\n"
-                                "Tiempo promedio de cruce por semáforo y carril (en segundos):\n"
-                                (str/join "\n" (map #(str (key %) ": " (val %)) promedio)) "\n"
-                                "Total de semáforos en verde sin vehículos:\n"
-                                (if semaforos-verde semaforos-verde "No disponible") "\n"
-                                "Tiempo muerto (en segundos):\n"
-                                (if tiempos-muerto tiempos-muerto "No disponible") "\n") :append true)))
+      (do
+        (println "Estadísticas del Crucero" crucero-id ":")
+        (println "Cantidad de vehículos por semáforo y carril:")
+        (doseq [[k v] (dissoc (:cantidad-vehiculos crucero-info) :total)]
+          (println (str k ": " v)))
+        (println "Total de vehículos:" (:total (:cantidad-vehiculos crucero-info)))
+        (println "Tiempo promedio de cruce por semáforo y carril (en segundos):")
+        (doseq [[k v] (:tiempo-promedio crucero-info)]
+          (println (str k ": " v)))
+        (println "Total de semáforos en verde sin vehículos:" (:semaforos-verdes crucero-info))
+        (println "Tiempo muerto (en segundos):" (:tiempo-muerto crucero-info))
+        (spit "resultados.txt" (str "Estadísticas del Crucero " crucero-id ":\n"
+                                    "Cantidad de vehículos por semáforo y carril:\n"
+                                    (str/join "\n" (map #(str (key %) ": " (val %)) (dissoc (:cantidad-vehiculos crucero-info) :total))) "\n"
+                                    "Total de vehículos: " (:total (:cantidad-vehiculos crucero-info)) "\n"
+                                    "Tiempo promedio de cruce por semáforo y carril (en segundos):\n"
+                                    (str/join "\n" (map #(str (key %) ": " (val %)) (:tiempo-promedio crucero-info))) "\n"
+                                    "Total de semáforos en verde sin vehículos: " (:semaforos-verdes crucero-info) "\n"
+                                    "Tiempo muerto (en segundos): " (:tiempo-muerto crucero-info) "\n") :append true))
+      (println "No se encontraron datos para el crucero solicitado."))))
 
 (defn contar-semaforos [datos]
   "Cuenta la cantidad de semáforos por crucero."
   (reduce
     (fn [acc [crucero semaforos]]
-      (assoc acc crucero (count semaforos)))
+      (assoc acc (name crucero) (count semaforos)))
     {}
     datos))
 
@@ -232,7 +224,15 @@
             cantidad-vehiculos @cantidad-vehiculos-futuro
             tiempo-promedio @tiempo-promedio-futuro
             semaforos-verdes-sin-vehiculos @semaforos-verdes-sin-vehiculos-futuro
-            tiempos-muertos @tiempos-muertos-futuro]
+            tiempos-muertos @tiempos-muertos-futuro
+            cruceros-info (reduce (fn [acc crucero-id]
+                                    (assoc acc crucero-id
+                                           {:cantidad-vehiculos (get cantidad-vehiculos crucero-id)
+                                            :tiempo-promedio (get tiempo-promedio crucero-id)
+                                            :semaforos-verdes (get semaforos-verdes-sin-vehiculos crucero-id)
+                                            :tiempo-muerto (nth tiempos-muertos (dec (Integer/parseInt (re-find #"\d+" crucero-id))))}))
+                                  {}
+                                  (map name (keys cantidad-vehiculos)))]
         
         (println "Total de vehículos procesados:" total-vehiculos)
 
@@ -279,7 +279,7 @@
           (let [crucero-numero (read-line)
                 crucero-id (format "Crucero%02d" (Integer/parseInt crucero-numero))]
             ;; Aquí realizamos la impresión detallada del crucero
-            (imprimir-informacion-crucero crucero-id cantidad-vehiculos tiempo-promedio semaforos-verdes-sin-vehiculos tiempos-muertos))))
+            (imprimir-informacion-crucero crucero-id cruceros-info))))
       (catch Exception e
         (println "Error en iniciar-analisis:" (.getMessage e))))))
 ;; Ejecutar la función para iniciar el análisis

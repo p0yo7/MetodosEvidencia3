@@ -249,11 +249,31 @@ Crucero 5: 3, 2, 2, 0
 Crucero 6: 5, 1, 4, 5
 Crucero 7: 3, 4, 3, 0Estadísticas del Crucero Crucero02:
 Cantidad de vehículos por semáforo y carril:
-
-Total de vehículos: No disponible
+OE-1: 3
+SN-1: 2
+NS-2: 1
+NOSE-2: 1
+OE-2: 2
+EO-1: 2
+NOSE-1: 2
+NS-1: 1
+SENO-1: 7
+SN-2: 2
+SENO-2: 3
+EO-2: 2
+Total de vehículos: 28
 Tiempo promedio de cruce por semáforo y carril (en segundos):
-
-Total de semáforos en verde sin vehículos:
-No disponible
-Tiempo muerto (en segundos):
-clojure.lang.LazySeq@59e71fe1
+OE-1: 13.0
+SN-1: 9.5
+NS-2: 13.0
+NOSE-2: 9.0
+OE-2: 13.0
+EO-1: 13.0
+NOSE-1: 13.0
+NS-1: 13.0
+SENO-1: 12.0
+SN-2: 13.0
+SENO-2: 13.0
+EO-2: 9.5
+Total de semáforos en verde sin vehículos: 0
+Tiempo muerto (en segundos): clojure.lang.LazySeq@59e71fe1
