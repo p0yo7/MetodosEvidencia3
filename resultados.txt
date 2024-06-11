@@ -247,4 +247,13 @@ Crucero 3: 3, 1, 7, 4
 Crucero 4: 3, 4, 0, 2
 Crucero 5: 3, 2, 2, 0
 Crucero 6: 5, 1, 4, 5
-Crucero 7: 3, 4, 3, 0
+Crucero 7: 3, 4, 3, 0Estadísticas del Crucero Crucero02:
+Cantidad de vehículos por semáforo y carril:
+
+Total de vehículos: No disponible
+Tiempo promedio de cruce por semáforo y carril (en segundos):
+
+Total de semáforos en verde sin vehículos:
+No disponible
+Tiempo muerto (en segundos):
+clojure.lang.LazySeq@59e71fe1
