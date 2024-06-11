@@ -151,7 +151,7 @@
     (count tiempos-muertos)))
 
 (defn tiempo-muerto [cruceros vehiculos]
-  (map (fn [crucero]
+  (pmap (fn [crucero]
          (map (fn [cruce]
                 (calcular-tiempo-muerto cruce vehiculos))
               crucero))
